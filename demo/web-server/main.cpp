@@ -9,13 +9,16 @@
 #include <csignal>
 #include <iostream>
 #include <memory>
+#include <unistd.h>
 using namespace std;
 using namespace cppnet;
 using namespace cppapp;
 
 void RunWithConfig(Config &config) {
+  auto pid = 0;
   if (config.is_background) {
     ProcessCtrl::BackGround();
+    pid = getpid();
   }
 
   if (config.is_guard) {
@@ -35,9 +38,17 @@ void RunWithConfig(Config &config) {
       return;
     }
 
-    server.InitSSL(addr, ctx);
+    rc = server.InitSSL(addr, ctx);
+    if (rc != 0) {
+      cout << "init ssl server error " << server.err_msg() << endl;
+      return;
+    }
   } else {
-    server.Init(addr);
+    auto rc = server.Init(addr);
+    if (rc != 0) {
+      cout << "init server error " << server.err_msg() << endl;
+      return;
+    }
   }
 
   for (auto &item : config.redirects) {
@@ -68,6 +79,9 @@ void RunWithConfig(Config &config) {
 
     server.set_logger(logger);
   }
+
+  //  write pid into file
+  File::Write("./server.pid", to_string(pid));
 
   server.Run();
 }
@@ -140,7 +154,7 @@ int main(int argc, char *argv[]) {
       "thank using chenxuanweb,if you have any question\n"
       "\tsend email to 1607772321@qq.com to deal problem,thank you!\n"
       "\t! only in linux the argv is accepted\n";
-  args.app.version = "v1.0.1";
+  args.app.version = "v2.0.1";
   args.SetOption("reload", "restart the server");
   args.SetOption("stop", "stop the server");
   args.SetVar("config", "choose the file to be config file");

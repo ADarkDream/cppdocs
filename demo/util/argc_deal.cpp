@@ -33,14 +33,12 @@ void ArgcDeal::SetOption(std::string option, std::string usage, bool must) {
 }
 
 int ArgcDeal::Run() {
-  if (app.pfunc == NULL) {
-    printf("Usage: %s\n", app.usage.c_str());
-    for (auto &i : message_) {
-      printf("%s\t%s\n", i.first.c_str(), i.second.c_str());
-    }
-    return 0;
+  if (app.pfunc == NULL || arg_all_.find("h") != arg_all_.end() ||
+      arg_all_.find("help") != arg_all_.end()) {
+    return MsgPrint();
+  } else {
+    return app.pfunc(*this);
   }
-  return app.pfunc(*this);
 }
 
 int ArgcDeal::MsgPrint() {

@@ -8,3 +8,4 @@ ssl
 demo/simple-http-server/demo
 webserver
 demo/simple-http-server/cppnet
+*.pid
