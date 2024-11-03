@@ -4,5 +4,7 @@ blog-home
 *.tar.gz
 *.json
 ssl
-cppnet/demo/simple-http-server/demo
-cppnet/demo/simple-http-server/cppnet
+*.log
+demo/simple-http-server/demo
+webserver
+demo/simple-http-server/cppnet

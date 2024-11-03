@@ -1,0 +1,9 @@
+[submodule "repo/cppnet"]
+	path = repo/cppnet
+	url = https://gitee.com/chenxuan520/cppnet.git
+[submodule "repo/cpptest"]
+	path = repo/cpptest
+	url = https://gitee.com/chenxuan520/cpptest.git
+[submodule "repo/cppjson"]
+	path = repo/cppjson
+	url = https://gitee.com/chenxuan520/cppjson
