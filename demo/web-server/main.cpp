@@ -7,6 +7,7 @@
 #include "process_ctrl.hpp"
 #include "utils/file.hpp"
 #include <csignal>
+#include <ctime>
 #include <iostream>
 #include <memory>
 #include <unistd.h>
@@ -25,7 +26,13 @@ void RunWithConfig(Config &config) {
     ProcessCtrl::Guard();
   }
 
-  cout << "run with config" << endl;
+  // get now time str
+  time_t now = time(nullptr);
+  tm *ltm = localtime(&now);
+  char time_str[100];
+  strftime(time_str, 100, "%Y-%m-%d %H:%M:%S", ltm);
+  cout << "Start Server " << time_str << endl;
+
   HttpServer server;
   Address addr{config.host, (uint16_t)config.port};
 
