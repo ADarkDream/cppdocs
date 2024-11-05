@@ -90,6 +90,10 @@ void RunWithConfig(Config &config) {
   //  write pid into file
   File::Write("./server.pid", to_string(pid));
 
+  // set time out avoid some case
+  server.SetReadTimeout(2, 0);
+  server.SetWriteTimeout(5, 0);
+
   server.Run();
 }
 
