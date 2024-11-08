@@ -7,3 +7,6 @@
 [submodule "repo/cppjson"]
 	path = repo/cppjson
 	url = https://gitee.com/chenxuan520/cppjson
+[submodule "repo/obsidian2web"]
+	path = repo/obsidian2web
+	url = https://github.com/chenxuan520/obsidian2web

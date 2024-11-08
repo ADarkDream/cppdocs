@@ -1,0 +1,55 @@
+name: build_and_release #名称随意
+on:
+  push: #设置触发规则
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code #这部分是为了从github自动clone代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Number of commits to fetch. 0 indicates all history for all branches and tags.Default: 1
+          submodules: true
+      - name: Install build tools #这部分是安装依赖,不过看着办的
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential curl tar
+      - name: Run Build Assert #需要执行的命令
+        run: |
+          cd ./repo/obsidian2web
+
+          ./init.sh
+          ./create.sh ../../docs
+          cp -r ./book ../../book
+
+          cd ../..
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./book
+
+  # Deploy job
+  deploy:
+    # Add a dependency to the build job
+    needs: build
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4 # or specific "vX.X.X" version tag for this action
+
+
+
