@@ -22,13 +22,11 @@
 - 参数：无
 - 返回值：无
 - 作用：关闭客户端连接。
-#ifdef CPPNET_OPENSSL
 ## int InitSSL(Address &addr)
 - 参数：
     - `addr`：服务器地址对象。
 - 返回值：`int`类型，0 表示成功，-1 表示失败。
 - 作用：初始化 SSL 客户端，连接到指定的服务器地址。
-    #endif
 ## Socket &socket()
 - 参数：无
 - 返回值：`Socket &`，套接字对象的引用。
