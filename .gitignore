@@ -3,7 +3,7 @@ build
 blog-home
 *.tar.gz
 *.json
-ssl
+demo/*/ssl
 *.log
 demo/simple-http-server/demo
 webserver
