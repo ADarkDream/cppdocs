@@ -11,71 +11,69 @@
 	- 这里如果是需要ssl (需要安装 openssl ),就下载 ssl 的版本, 都这下载默认即可
 	- **目前只支持 linux和mac(因为作者只有这两种系统的电脑), 后续会添加对windows 的支持**
 2. 编写代码, 这一步可以根据需要编写代码, 下面是两个简单的demo , 分别是 没有ssl 和有ssl的两个demo, 具体的函数介绍可以参考文档内容
+```cpp
+#include "./cppnet/include/cppnet/http/server/http_server.hpp"
+#include "./cppnet/include/cppnet/utils/const.hpp"
+#include <iostream>
 
-    ```cpp
-    #include "./cppnet/include/cppnet/http/server/http_server.hpp"
-    #include "./cppnet/include/cppnet/utils/const.hpp"
-    #include <iostream>
+using namespace cppnet;
 
-    using namespace cppnet;
+int main() {
+  HttpServer server;
+  auto rc = server.Init({"127.0.0.1", 8080});
+  if (rc != kSuccess) {
+    std::cout << "init server wrong " << server.err_msg() << std::endl;
+    return rc;
+  }
+  server.set_logger(std::make_shared<StdLogger>());
+  server.GET("/", [](HttpContext &ctx) {
+    ctx.resp().Success(HttpHeader::ContentType::kTextHtml,
+                       "<h1>Hello, World!</h1>");
+  });
+  rc = server.Run();
+  if (rc != kSuccess) {
+    std::cout << "run server wrong " << server.err_msg() << std::endl;
+    return rc;
+  }
+  return 0;
+}
 
-    int main() {
-      HttpServer server;
-      auto rc = server.Init({"127.0.0.1", 8080});
-      if (rc != kSuccess) {
-        std::cout << "init server wrong " << server.err_msg() << std::endl;
-        return rc;
-      }
-      server.set_logger(std::make_shared<StdLogger>());
-      server.GET("/", [](HttpContext &ctx) {
-        ctx.resp().Success(HttpHeader::ContentType::kTextHtml,
-                           "<h1>Hello, World!</h1>");
-      });
-      rc = server.Run();
-      if (rc != kSuccess) {
-        std::cout << "run server wrong " << server.err_msg() << std::endl;
-        return rc;
-      }
-      return 0;
-    }
+// ssl 版本
 
-    // ssl 版本
+#include "./cppnet/include/cppnet/http/server/http_server.hpp"
+#include "./cppnet/include/cppnet/utils/const.hpp"
+#include <iostream>
+#include <memory>
 
-    #include "./cppnet/include/cppnet/http/server/http_server.hpp"
-    #include "./cppnet/include/cppnet/utils/const.hpp"
-    #include <iostream>
-    #include <memory>
+using namespace cppnet;
 
-    using namespace cppnet;
+int main() {
+  HttpServer server;
+  std::shared_ptr<SSLContext> ssl_ctx = std::make_shared<SSLContext>();
+  auto rc = ssl_ctx->InitSvrFile("./ssl/cacert.pem", "./ssl/privkey.pem");
+  if (rc != kSuccess) {
+    std::cout << "init ssl context wrong " << ssl_ctx->err_msg() << std::endl;
+    return rc;
+  }
+  rc = server.InitSSL({"127.0.0.1", 8080}, ssl_ctx);
+  if (rc != kSuccess) {
+    std::cout << "init server wrong " << server.err_msg() << std::endl;
+    return rc;
+  }
+  server.set_logger(std::make_shared<StdLogger>());
+  server.GET("/", [](HttpContext &ctx) {
+    ctx.resp().Success(HttpHeader::ContentType::kTextHtml,
+                       "<h1>Hello, World!</h1>");
+  });
+  rc = server.Run();
+  if (rc != kSuccess) {
+    std::cout << "run server wrong " << server.err_msg() << std::endl;
+    return rc;
+  }
+  return 0;
+}
 
-    int main() {
-      HttpServer server;
-      std::shared_ptr<SSLContext> ssl_ctx = std::make_shared<SSLContext>();
-      auto rc = ssl_ctx->InitSvrFile("./ssl/cacert.pem", "./ssl/privkey.pem");
-      if (rc != kSuccess) {
-        std::cout << "init ssl context wrong " << ssl_ctx->err_msg() << std::endl;
-        return rc;
-      }
-      rc = server.InitSSL({"127.0.0.1", 8080}, ssl_ctx);
-      if (rc != kSuccess) {
-        std::cout << "init server wrong " << server.err_msg() << std::endl;
-        return rc;
-      }
-      server.set_logger(std::make_shared<StdLogger>());
-      server.GET("/", [](HttpContext &ctx) {
-        ctx.resp().Success(HttpHeader::ContentType::kTextHtml,
-                           "<h1>Hello, World!</h1>");
-      });
-      rc = server.Run();
-      if (rc != kSuccess) {
-        std::cout << "run server wrong " << server.err_msg() << std::endl;
-        return rc;
-      }
-      return 0;
-    }
-
-    ```
-
+```
 3. 编写编译文件
 	1. 如果是使用 CMake 编译, 需要在CMakeLists 添加如下内容 , 实际上就是加上了链接库
 	```cmake
