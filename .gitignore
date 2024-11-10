@@ -9,6 +9,6 @@ demo/simple-http-server/demo
 webserver
 libserver*
 demo/simple-http-server/cppnet
-cppnet
+demo/*/cppnet
 .obsidian
 *.pid
