@@ -125,6 +125,7 @@
 - 返回值：无
 - 作用：设置日志对象。
 # cppnet::HttpServer
+- 主要使用类,构建http 服务器
 ## HttpServer()
 - 参数：无
 - 返回值：无

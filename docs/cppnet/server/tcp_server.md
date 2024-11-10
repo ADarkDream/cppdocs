@@ -1,12 +1,9 @@
 # cppnet::TcpServer
 ## Event
-
 - 这是一个枚举类，定义了不同的事件类型，包括 `kEventAccept`（接受连接事件）、`kEventRead`（读取事件）、`kEventLeave`（离开事件）和 `kEventError`（错误事件）。
 ## Mode
-
 - 这是一个枚举类，定义了服务器的运行模式，包括 `kIOMultiplexing`（I/O 多路复用模式）、`kMultiThread`（多线程模式）和 `kMixed`（混合模式）。
 ## TcpServer()
-
 - 参数：无
 - 返回值：无
 - 作用：构造一个默认的 TcpServer 对象。
@@ -84,49 +81,40 @@
 - 返回值：`Address`类型，服务器的地址对象。
 - 作用：获取服务器的地址。
 ## inline std::string err_msg() const
-
 - 参数：无
 - 返回值：`std::string`类型，错误消息。
 - 作用：获取错误消息。
 ## inline std::shared_ptr\<IOMultiplexingBase\> io_multiplexing()
-
 - 参数：无
 - 返回值：指向 `IOMultiplexingBase` 的智能指针，I/O 多路复用对象。
 - 作用：获取服务器的 I/O 多路复用对象。
 ## inline std::shared_ptr\<ThreadPool\> thread_pool()
-
 - 参数：无
 - 返回值：指向 `ThreadPool` 的智能指针，线程池对象。
 - 作用：获取服务器的线程池对象。
 ## Socket CreateSocket()
-
 - 参数：无
 - 返回值：`Socket`类型，创建的套接字文件描述符。
 - 作用：创建服务器套接字。
 ## int InitMode()
-
 - 参数：无
 - 返回值：`int`类型，0 表示成功，-1 表示失败。
 - 作用：根据服务器的运行模式进行初始化。
 ## void HandleAccept()
-
 - 参数：无
 - 返回值：无
 - 作用：处理接受连接事件。
 ## void HandleRead(int fd)
-
 - 参数：
     - `fd`：套接字文件描述符。
 - 返回值：无
 - 作用：处理读取事件。
 ## void HandleLeave(int fd)
-
 - 参数：
     - `fd`：套接字文件描述符。
 - 返回值：无
 - 作用：处理离开事件。
 ## void HandleError(int fd)
-
 - 参数：
     - `fd`：套接字文件描述符。
 - 返回值：无
