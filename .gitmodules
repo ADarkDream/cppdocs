@@ -10,3 +10,6 @@
 [submodule "repo/obsidian2web"]
 	path = repo/obsidian2web
 	url = https://github.com/chenxuan520/obsidian2web
+[submodule "docs/Reverse1999Wiki-in-Obsidian"]
+	path = docs/Reverse1999Wiki-in-Obsidian
+	url = http://github.com/ProudBenzene/Reverse1999Wiki-in-Obsidian.git
